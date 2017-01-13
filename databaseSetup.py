@@ -6,7 +6,7 @@ conn = sqlite3.connect('fitnessTracker.db')
 
 print("Opened database successfully");
 
-conn.execute('''DROP TABLE IF EXISTS WORKOUTRECORDS)
+conn.execute('''DROP TABLE IF EXISTS WORKOUTRECORDS''')
 #A record is this format: (id, workoutdate, workoutLength, workoutType, weight)
 
 conn.execute('''CREATE TABLE WORKOUTRECORDS
