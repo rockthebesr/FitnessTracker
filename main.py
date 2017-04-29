@@ -24,20 +24,7 @@ class WorkoutRecord(QWidget):
         exitAction.setShortcut('Ctrl+Q')
         exitAction.triggered.connect(qApp.quit)
         
-        addBtn = QPushButton('Add new record', self)
-        addBtn.resize(addBtn.sizeHint())
-        #addBtn.move(90, 150)
-        addBtn.clicked.connect(self.addNewRecord)
-        
-        checkBtn = QPushButton('Check existing records', self)
-        checkBtn.resize(checkBtn.sizeHint())
-        checkBtn.clicked.connect(self.checkRecords)
-        
-        
-        hbox = QVBoxLayout()
-        hbox.addStretch(1)
-        hbox.addWidget(addBtn)
-        hbox.addWidget(checkBtn)
+
         
         vbox = QFormLayout()
         
@@ -53,6 +40,19 @@ class WorkoutRecord(QWidget):
         self.weightInput = QLineEdit()
         vbox.addRow("current weight", self.weightInput)
         
+        addBtn = QPushButton('Add new record', self)
+        addBtn.resize(addBtn.sizeHint())
+        addBtn.clicked.connect(self.addNewRecord)
+        
+        checkBtn = QPushButton('Check existing records', self)
+        checkBtn.resize(checkBtn.sizeHint())
+        checkBtn.clicked.connect(self.checkRecords)
+        
+        
+        hbox = QVBoxLayout()
+        hbox.addStretch(1)
+        hbox.addWidget(addBtn)
+        hbox.addWidget(checkBtn)
         
         vbox.addRow(hbox)
         
@@ -75,11 +75,27 @@ class WorkoutRecord(QWidget):
 
 
     def addNewRecord(self):
-        print("adding new record");
+        c = conn.cursor()
+        date = self.dateInput.text()
+        length = self.lengthInput.text()
+        type = self.typeInput.text()
+        weight = self.weightInput.text()
+        c.execute("select * from WORKOUTRECORDS")
+        results = c.fetchall()
+        resultsLength = len(results)
+        id = resultsLength + 1
+        print(date)
+        print(length)
+        print(type)
+        print(weight)
+        print(id)
+        c.execute("INSERT INTO WORKOUTRECORDS VALUES (?,?,?,?,?)",
+                      (id, date, length, type, weight,))
+        print("adding new record")
 
 
     def checkRecords(self):
-        print("checking records");
+        print("checking records")
 
 if __name__ == '__main__':
     
